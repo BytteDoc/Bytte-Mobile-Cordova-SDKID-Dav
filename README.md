@@ -405,4 +405,4 @@ exports.startFingerprint = function(arg0, arg1, arg2, arg3,arg4,arg5, success, e
 Control de cambios
 ------------------------------
 ------------------------------
-| 9-nov-2021 | Axtualizacion librerias microblink para captura de documentos, cambio de         librerias para la captura biometria|
+| 9-nov-2021 | Actualizacion librerias microblink para captura de documentos, cambio de librerias para la captura biometria|
