@@ -36,9 +36,36 @@ Los factores limitantes para la integración del SDK son:
 
 #### 2.2. Instalación Plugin com.bytte.sdk.biometric
 
-NOTA: Para este ejemplo, el Plugin ubicado en la carpeta CDVBytteBioLibV3, debe estar al mismo nivel de la aplicación destino.
+#### 2.2.1 Configuración archivo .npmrc
 
-`$ cordova plugin add ../CDVBytteBioLibV3/`
+Una vez instalado NPM (sistema de gestión de paquetes). En la ruta por defecto de instalación se debe encontrar el archivo .npmrc, si no se encuentra se debe crear a nivel de usuario.
+
+Una vez detectado el archivo se debe configurar de la siguiente manera.
+
+
+``` txt
+
+registry=https://byttetfs.pkgs.visualstudio.com/c1dcbe70-4508-4f44-bfa8-e50bdbfea41f/_packaging/Bytte-Library-Sdk-Cordova-Dav/npm/registry/ 
+                        
+always-auth=true
+
+; begin auth token
+//byttetfs.pkgs.visualstudio.com/c1dcbe70-4508-4f44-bfa8-e50bdbfea41f/_packaging/Bytte-Library-Sdk-Cordova-Dav/npm/registry/:username=BytteTFS
+//byttetfs.pkgs.visualstudio.com/c1dcbe70-4508-4f44-bfa8-e50bdbfea41f/_packaging/Bytte-Library-Sdk-Cordova-Dav/npm/registry/:_password=(TOKEN)
+//byttetfs.pkgs.visualstudio.com/c1dcbe70-4508-4f44-bfa8-e50bdbfea41f/_packaging/Bytte-Library-Sdk-Cordova-Dav/npm/registry/:email=npm requires email to be set but doesn't use the value
+//byttetfs.pkgs.visualstudio.com/c1dcbe70-4508-4f44-bfa8-e50bdbfea41f/_packaging/Bytte-Library-Sdk-Cordova-Dav/npm/:username=BytteTFS
+//byttetfs.pkgs.visualstudio.com/c1dcbe70-4508-4f44-bfa8-e50bdbfea41f/_packaging/Bytte-Library-Sdk-Cordova-Dav/npm/:_password=(TOKEN)
+//byttetfs.pkgs.visualstudio.com/c1dcbe70-4508-4f44-bfa8-e50bdbfea41f/_packaging/Bytte-Library-Sdk-Cordova-Dav/npm/:email=npm requires email to be set but doesn't use the value
+; end auth token
+```
+
+En el espacio (*TOKEN*) se debe ingresar el password enviado por Bytte sas.
+
+#### 2.2.2 Instalación 
+
+`$ cordova plugin add com.bytte.sdk.biometric --save`
+
+![Directories](http://www.bytte.com.co/ftpaccess/Varios/CarlosG/Cordova/npm.png)
 
 Una vez instalado el plugin, se debe realizar la consulta a la aplicación para verificar que este quedó correctamente instalado. (`$ cordova plugin ls`)
 
@@ -403,4 +430,5 @@ Control de cambios
 ------------------------------
 ------------------------------
 | 9-nov-2021 | Actualizacion librerias microblink para captura de documentos, cambio de librerias para la captura biometria|
+
 
