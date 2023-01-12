@@ -125,8 +125,7 @@ El app debe solicitar los permisos  en tiempo de ejecución antes de usar la fun
 ### tomar el path del plugin descargado
 ``` terminal 
 cordova platform add android
-cordova plugin add ../com.bytte.cordova.cuentadigital.plugin.face/CDVBytteBioLibV3/
-
+cordova plugin add com.bytte.sdk.biometric --save
 ```
 
 #### Para la configuración de Android ahora se maneja por maven para el uso de estas dependencias debemos tener en cuenta lo siguiente: confirmar los datos de username y token. Para solicitarlos a bytte antes de su desarrollo. Estos nos dan el acceso a las dependencias necesarias de las capturás de huellas, documento colombiano de hologramas
@@ -162,12 +161,6 @@ Esta licencia es necesaria para el uso del sdk y captura de documentos.
 # licencias Biometria
 
 ### Parametros
-**Para el uso de la licencia Biometria es necesario registrar el app Pakage ID en la paltaforma de google developer**  
-* **Para generar la llave safetyNet api key busca los detalles del resgistro**
-en https://developer.android.com/training/safetynet/attestation 
-* **Desarrollador SHA1 Key. Cada desarrollador necesita un par de claves para firmar aplicaciones: una para debug y otra para el modo de release. Estos HASH también deben estar asociados con la licencia.**
-* esta licencia es unica por equipo ej: un desarrollador que tiene acceso a variantes de compilacion debe generar unas para debug y otra para release por cada projecto.
-
 
 
 **Se entrega un archivo y este se ingresara en el directorio: android/app/src/assets**
@@ -178,17 +171,16 @@ en https://developer.android.com/training/safetynet/attestation
 ## licencia  Android para el uso de huellas
 * **crear una carpeta en el direccorio android llamada assets**
 Dentro de esa carpeta depositamos el archivo de licencia que se generara para la implementación en debug y otra para reléase
+* **estas licencias estan vinculadas al sha1 del keystore de la app tanto para  produccion como para desarrollo. Como tan bien al namepackage de la app**
 
+para validar que sha1 tienes como desarrollo usa la la siguiente linea en una terminal. (valida el  path y la demas info para aplicar en cada caso)
+```
+keytool -list -v -keystore ~/.Android/debug.keystore -alias androiddebugkey -storepass Android -keypass Android 
+```
 
-## Luego vamos a generar la llave safetynet 
-https://developer.android.com/training/safetynet/attestation
-en la url se muestran los detalles para solicitar la llave safetynet 
-
-
-
-
-```    
 ## configuracion colores de la pantalla de huellas
+```    
+
 >boxes -> color de borde  del cuadro de la camara
 >boxes_transparent -> color del recuadro  entre el header y el footer
 >colorPrimary -> color del footer y el header 
@@ -328,7 +320,7 @@ Estos colores se toman de la configuracon de la app
 //arg2 párametro alto de la imagen 
 //arg3 párametro monocromático 1 - imagen monocromático ok 0- image monocromático  fail 
 exports.startPhotoCapture = function(arg0,arg1,arg2,arg3,success, error) {
-    exec(success, error, "CDVBytteBioLib", "startPhotoCapture",[arg0, arg1, arg2, arg3]);
+    exec(success, error, "BytteBioLib", "startPhotoCapture",[arg0, arg1, arg2, arg3]);
 };
 ```
 
@@ -338,7 +330,7 @@ exports.startPhotoCapture = function(arg0,arg1,arg2,arg3,success, error) {
 //Inicia la el buscador de archivos
 //arg0 identifica el tipo de busqueda 0-> file .pdf ---1->galeria .png-.jpg
 exports.startFindFile = function(arg0, success, error) {
-    exec(success, error, "CDVBytteBioLib", "startFindFile",[arg0]);
+    exec(success, error, "BytteBioLib", "startFindFile",[arg0]);
 };
 ```
 
@@ -350,7 +342,7 @@ exports.startFindFile = function(arg0, success, error) {
 //arg1 KeyPass
 //arg2 TimeOut
 exports.startBarCode = function(arg0, arg1, arg2 , success, error) {
-     exec(success, error, "CDVBytteBioLib", "startBarCode", [arg0, arg1, arg2]);
+     exec(success, error, "BytteBioLib", "startBarCode", [arg0, arg1, arg2]);
 };
 ```
 
@@ -362,7 +354,7 @@ exports.startBarCode = function(arg0, arg1, arg2 , success, error) {
 //arg1 KeyPass
 //arg2 TimeOut
 exports.startFrontDocument = function(arg0, arg1, arg2, success, error) {
-    exec(success, error, "CDVBytteBioLib", "startFrontDocument", [arg0, arg1, arg2]);
+    exec(success, error, "BytteBioLib", "startFrontDocument", [arg0, arg1, arg2]);
 };
 ```
 
@@ -374,7 +366,7 @@ exports.startFrontDocument = function(arg0, arg1, arg2, success, error) {
 //arg1 : FilePwd -> Password con que se ofuscaron las imágenes
 //arg2 : TimeOut
 exports.startCreditCard = function(arg0, arg1, arg2,success, error) {
-    exec(success, error, "CDVBytteBioLib", "startCreditCard",[arg0, arg1, arg2]);
+    exec(success, error, "BytteBioLib", "startCreditCard",[arg0, arg1, arg2]);
 };
 ```
 
@@ -389,7 +381,7 @@ exports.startCreditCard = function(arg0, arg1, arg2,success, error) {
 //arg4 camera
 //arg5 netkey
 exports.startFaceCapture = function(arg0, arg1, arg2, arg3,arg4,arg5, success, error) {
-    exec(success, error, "CDVBytteBioLib", "startFaceCapture", [arg0, arg1, arg2, arg3,arg4,arg5]);
+    exec(success, error, "BytteBioLib", "startFaceCapture", [arg0, arg1, arg2, arg3,arg4,arg5]);
 };
 ```
 
@@ -402,12 +394,104 @@ exports.startFaceCapture = function(arg0, arg1, arg2, arg3,arg4,arg5, success, e
 //arg2 Numero de Dedo (1 al 10)
 //arg3 namePath
 //arg4 url
-//arg5 netkey
-exports.startFingerprint = function(arg0, arg1, arg2, arg3,arg4,arg5, success, error) {
-    exec(success, error, "CDVBytteBioLib", "startFingerprint", [arg0, arg1, arg2, arg3,arg4,arg5]);
+exports.startFingerprint = function(arg0, arg1, arg2, arg3,arg4, success, error) {
+    exec(success, error, "BytteBioLib", "startFingerprint", [arg0, arg1, arg2, arg3,arg4]);
 };
 ```
+## Respuesta de las capturas
+### Captura Back documento colombiano de hologramas 
+  * BarcodeBase64
+    : Código de barras en base64 que se requiere para procesos posteriores
+```
+{
+   "BarcodeBase64":"MDMxMzUxNjkyMAAAAAAAAAAAAAAAAAAAUHViRFNLXzEAA",
+   "CiudadExpedicion":"BOGOTA",
+   "CiudadNacimiento":"BOGOTA DC K",
+   "CodigoOperacion":"0000",
+   "DepartamentoCol":"CUNDINAMARCA",
+   "FechaExp":"29 MAY 2009",
+   "FechaNacimiento":"1991/05/27",
+   "MensajeOriginal":"Captura exitosa",
+   "MensajeRetorno":"Ok Captura",
+   "NombresCompletos":"XXXXXX ",
+   "NumeroCedula":"1069258777",
+   "NumeroTarjeta":"1235889",
+   "Pais":"COLOMBIA",
+   "PathImagen":"/data/user/0/com.davivienda.nuevaappemp/files/Documents/DB_IMG_175dcec7_9313_48bb_aa89_9c34406707b0.jpg",
+   "PrimerApellido":"XXXX",
+   "PrimerNombre":"XXXX",
+   "RH":"O+",
+   "SegundoApellido":"XXX",
+   "SegundoNombre":"XXXX",
+   "Sexo":"M",
+   "StatusOperacion":true,
+   "TipoDedo":"2",
+   "TipoDedo2":"7",
+   "VersionCedula":"03"
+}
+```
 
+### Captura Frente documento colombiano de hologramas 
+```
+ {"CodigoOperacion":"0000",
+   "MensajeOriginal":"Captura exitosa",
+   "MensajeRetorno":"Ok Captura",
+   "PathImagen":"/data/user/0/com.davivienda.nuevaappemp/files/Docu…s/DF_IMG_6a6124c9_deb7_42ed_9d2a_6eb4899d28ce.jpg",
+   "PathImagenRostro":"/data/user/0/com.davivienda.nuevaappemp/files/Docu…s/DF_IMG_a9784878_ba42_49f0_afd6_09735dcaa732.jpg",
+   "StatusOperacion":true}
+```
+### Captura de huellas
+*	TipoDedo (Dedo impreso en el documento) principal TipoDedo
+        Se define de la siguiente manera:
+    > *	1 – Derecho Pulgar
+    > *	2 – Derecho Índice
+    > *	3 – Derecho Medio
+    > *	4 – Derecho Anular
+    > *	5 – Derecho Meñique
+    > *	6 – Izquierdo Pulgar
+    > *	7 – Izquierdo Índice
+    > *	8 – Izquierdo Medio
+    > *	9 – Izquierdo Anular
+    > *	10 – Izquierdo Meñique
+    > *	20- mano derecha
+    > *	21-mano izquierda
+
+* se retorna el  path de las img para cada una de las capturas
+```
+{
+    "CodigoOperacion": "0000",
+    "MensajeOriginal": "Captura Exitosa",
+    "MensajeRetorno": "Ok Captura",
+    "StatusOperacion": true,
+    "FingerprintsObjects": [
+        {
+            "Fingerprint": "20",
+            "Minutia": "",
+            "PathBitmap": "/data/user/0/com.davivienda.nuevaappemp/files/Documents/FP_IMG_ecc33475_fb40_4705_9fd5_4dcdd601ec8c.jpg"
+        },
+        {
+            "Fingerprint": "3",
+            "Minutia": "",
+            "PathBitmap": "/data/user/0/com.davivienda.nuevaappemp/files/Documents/FP_IMG_b3ad988f_f394_4d17_9103_71fa262316ef.jpg"
+        },
+        {
+            "Fingerprint": "4",
+            "Minutia": "",
+            "PathBitmap": "/data/user/0/com.davivienda.nuevaappemp/files/Documents/FP_IMG_4e21f108_b2b4_4d2d_9fb1_daa07bff0d43.jpg"
+        },
+        {
+            "Fingerprint": "2",
+            "Minutia": "",
+            "PathBitmap": "/data/user/0/com.davivienda.nuevaappemp/files/Documents/FP_IMG_2a15be0b_61f0_4e81_afd8_0d2db4801300.jpg"
+        },
+        {
+            "Fingerprint": "5",
+            "Minutia": "",
+            "PathBitmap": "/data/user/0/com.davivienda.nuevaappemp/files/Documents/FP_IMG_948a03e3_2833_4701_a389_70282686a1b4.jpg"
+        }
+    ],
+    "plataforma": "Android"
+}
 
 ```
 <string name="OK">0000</string><string name="TimeOut">0001</string>
@@ -430,5 +514,6 @@ Control de cambios
 ------------------------------
 ------------------------------
 | 9-nov-2021 | Actualizacion librerias microblink para captura de documentos, cambio de librerias para la captura biometria|
+| 12-Ene-2023| Se remueve la configuración par la solicitud de safetynet en la implementación de huellas solo afecta a android|
 
 
