@@ -492,7 +492,7 @@ exports.startFingerprint = function(arg0, arg1, arg2, arg3,arg4, success, error)
     ],
     "plataforma": "Android"
 }
-
+```
 ```
 <string name="OK">0000</string><string name="TimeOut">0001</string>
 <string name="Cancelado_a_proposito">0002</string>
@@ -508,12 +508,13 @@ exports.startFingerprint = function(arg0, arg1, arg2, arg3,arg4, success, error)
 <string name="ErrorLicencia_Biometria">Error de Licencia biometria"</string>
 <string name="Error_Capturahuellas">Error en la captura de las huellas"</string>
 <string name="ErrorLicenciaBiometria">Error licencia de  biometria"</string>
-
+```
 ------------------------------
 Control de cambios
 ------------------------------
 ------------------------------
 | 9-nov-2021 | Actualizacion librerias microblink para captura de documentos, cambio de librerias para la captura biometria|
+
 | 12-Ene-2023| Se remueve la configuración par la solicitud de safetynet en la implementación de huellas solo afecta a android|
 
 
